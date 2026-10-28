@@ -273,8 +273,9 @@
   .btn.wide { width: 100%; height: 31px; }
   .h-foot { display: flex; justify-content: flex-end; margin-top: 9px; }
   .h-foot.split { justify-content: space-between; gap: 12px; }
-  .link { background: none; border: 0; padding: 0; font-family: var(--mono); font-size: 9.5px; color: #4e5d79; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
-  .link:hover { color: #8b9ab5; }
+  .link { background: none; border: 0; padding: 0; font-family: var(--mono); font-size: 9.5px; color: #8b9ab5; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+  .link:hover { color: var(--text); }
+  .link:disabled { color: #6b7a99; text-decoration: none; cursor: default; }
 
   /* status card */
   .status-row { display: flex; align-items: center; gap: 8px; }
@@ -817,6 +818,11 @@
       toast("Still broken — an agent needs to take it");
       S.phase = "idle";
       hb.querySelector(".h-ask p").innerHTML = "The 99+ badge overlaps by <b>6px</b> at 320px. Someone has to fix it — that is what the bids are for.";
+      var done = hb.querySelector('[data-act="runcheck"]');
+      if (done) {
+        done.disabled = true;
+        done.textContent = "Checked";
+      }
       return;
     }
 
