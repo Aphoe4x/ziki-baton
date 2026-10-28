@@ -136,10 +136,19 @@
   .desc .more { margin-top: 8px; font-size: 12px; color: var(--blue); background: none; border: 0; cursor: pointer; padding: 0; }
   .desc code { font-family: var(--mono); font-size: .88em; background: var(--surface-2); border-radius: 4px; padding: 1px 5px; color: #cbd5e1; }
 
-  /* decisions strip */
-  .dec-row { display: flex; gap: 8px; overflow: hidden; }
+  /* decisions - a slow drift of what the agents concluded */
+  .dec-row {
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 18px, #000 calc(100% - 18px), transparent);
+    mask-image: linear-gradient(to right, transparent, #000 18px, #000 calc(100% - 18px), transparent);
+  }
+  .dec-track { display: flex; width: max-content; animation: dec-drift 52s linear infinite; }
+  .dec-row:hover .dec-track,
+  .dec-row:focus-within .dec-track { animation-play-state: paused; }
+  .dec-set { display: flex; gap: 8px; padding-right: 8px; }
+  @keyframes dec-drift { to { transform: translateX(-50%); } }
   .dec {
-    flex: 1 1 0; min-width: 0;
+    flex: 0 0 auto; min-width: 176px;
     display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 8px; align-items: center;
     border: 1px solid var(--border); border-radius: 9px; padding: 7px 9px;
     background: #070c17;
@@ -359,11 +368,12 @@
     .pts { display: none; }
     .head h1 { font-size: 16.5px; }
     .form-grid { grid-template-columns: 1fr; }
-    .dec-row { overflow-x: auto; }
-    .dec { min-width: 132px; }
   }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    .dec-track { animation: none; }
+    .dec-row { overflow-x: auto; -webkit-mask-image: none; mask-image: none; }
+    .dec-set[aria-hidden="true"] { display: none; }
   }
 </style>
 </head>
@@ -418,21 +428,43 @@
           <span class="card-k"><b style="color:#c2d2ee;font-weight:700">24</b> agent decisions</span>
         </div>
         <div class="dec-row">
-          <div class="dec tint">
-            <span class="dec-ic" aria-hidden="true">◆</span>
-            <div><div class="dec-n">4/8</div><div class="dec-s">"I'll merge"</div></div>
-          </div>
-          <div class="dec tint">
-            <span class="dec-ic" aria-hidden="true">◉</span>
-            <div><div class="dec-n">Six Eyes</div><div class="dec-s">"Fix is good to merge"</div></div>
-          </div>
-          <div class="dec tint">
-            <span class="dec-ic" aria-hidden="true">◉</span>
-            <div><div class="dec-n">Apex</div><div class="dec-s">"Fix is good to merge"</div></div>
-          </div>
-          <div class="dec tint">
-            <span class="dec-ic" aria-hidden="true">◉</span>
-            <div><div class="dec-n">ChatGPT A…</div><div class="dec-s">"Confirmed"</div></div>
+          <div class="dec-track">
+            <div class="dec-set">
+              <div class="dec tint">
+                <span class="dec-ic" aria-hidden="true">◆</span>
+                <div><div class="dec-n">4/8</div><div class="dec-s">"I'll merge"</div></div>
+              </div>
+              <div class="dec tint">
+                <span class="dec-ic" aria-hidden="true">◉</span>
+                <div><div class="dec-n">Six Eyes</div><div class="dec-s">"Fix is good to merge"</div></div>
+              </div>
+              <div class="dec tint">
+                <span class="dec-ic" aria-hidden="true">◉</span>
+                <div><div class="dec-n">Apex</div><div class="dec-s">"Fix is good to merge"</div></div>
+              </div>
+              <div class="dec tint">
+                <span class="dec-ic" aria-hidden="true">◉</span>
+                <div><div class="dec-n">ChatGPT A…</div><div class="dec-s">"Confirmed"</div></div>
+              </div>
+            </div>
+            <div class="dec-set" aria-hidden="true">
+              <div class="dec tint">
+                <span class="dec-ic" aria-hidden="true">◆</span>
+                <div><div class="dec-n">4/8</div><div class="dec-s">"I'll merge"</div></div>
+              </div>
+              <div class="dec tint">
+                <span class="dec-ic" aria-hidden="true">◉</span>
+                <div><div class="dec-n">Six Eyes</div><div class="dec-s">"Fix is good to merge"</div></div>
+              </div>
+              <div class="dec tint">
+                <span class="dec-ic" aria-hidden="true">◉</span>
+                <div><div class="dec-n">Apex</div><div class="dec-s">"Fix is good to merge"</div></div>
+              </div>
+              <div class="dec tint">
+                <span class="dec-ic" aria-hidden="true">◉</span>
+                <div><div class="dec-n">ChatGPT A…</div><div class="dec-s">"Confirmed"</div></div>
+              </div>
+            </div>
           </div>
         </div>
         <div class="strip-foot"><button class="card-a" type="button">Show all 24 decisions ⌄</button></div>
